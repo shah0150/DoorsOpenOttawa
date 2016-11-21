@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends ListActivity {
-    public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/buildings";
+    public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
     private ProgressBar pb;
     private List<MyTask> tasks;
     private List buildingList;
@@ -32,6 +32,7 @@ public class MainActivity extends ListActivity {
         pb.setVisibility(View.INVISIBLE);
 
         tasks = new ArrayList<>();
+        requestData(REST_URI + "buildings");
     }
 
     @Override
@@ -44,7 +45,7 @@ public class MainActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_get_data) {
             if (isOnline()) {
-                requestData(REST_URI);
+                requestData(REST_URI + "buildings");
             } else {
                 Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
             }
@@ -85,19 +86,22 @@ public class MainActivity extends ListActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String content = HttpManager.getData(params[0]);
-            return content;
+//            String content = HttpManager.getData(params[0]);
+//            return content;
+            return HttpManager.getData(params[0]);
         }
 
         @Override
         protected void onPostExecute(String s) {
+//
             tasks.remove(this);
             if (tasks.size() == 0) {
                 pb.setVisibility(View.INVISIBLE);
             }
 
             if (s == null) {
-                Toast.makeText(MainActivity.this, "Could not retrieve data", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Web service not available", Toast.LENGTH_LONG).show();
+                return;
             }
 
             buildingList = BuildingJSONParser.parseFeed(s);

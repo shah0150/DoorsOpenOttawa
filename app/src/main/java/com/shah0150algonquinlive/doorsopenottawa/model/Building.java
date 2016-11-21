@@ -1,5 +1,9 @@
 package com.shah0150algonquinlive.doorsopenottawa.model;
 
+import android.graphics.Bitmap;
+
+import java.util.List;
+
 /**
  * Created by adeshshah on 2016-11-08.
  */
@@ -9,6 +13,15 @@ public class Building {
     private String name;
     private String address;
     private String image;
+    private List<String>  openHours;
+    public List<String> getOpenHours() {
+        return openHours;
+    }
+    private Bitmap bitmap;
+    public void setOpenHours(List<String> openHours) {
+        this.openHours = openHours;
+    }
+
 
     public int getBuildingId() {
         return buildingId;
@@ -17,6 +30,7 @@ public class Building {
     public void setBuildingId(int buildingId) {
         this.buildingId = buildingId;
     }
+
 
     public String getName() {
         return name;
@@ -40,5 +54,13 @@ public class Building {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }
