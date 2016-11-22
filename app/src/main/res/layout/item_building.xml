@@ -59,6 +59,7 @@
                 android:paddingRight="@dimen/album_title_padding"
                 android:textSize="@dimen/songs_count" />
 
+
             <ImageView
                 android:id="@+id/overflow"
                 android:layout_width="@dimen/ic_album_overflow_width"

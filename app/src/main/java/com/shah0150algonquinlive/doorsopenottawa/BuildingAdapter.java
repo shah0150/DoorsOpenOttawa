@@ -6,6 +6,7 @@ package com.shah0150algonquinlive.doorsopenottawa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
@@ -31,6 +32,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
+import static com.shah0150algonquinlive.doorsopenottawa.R.id.image;
 import static com.shah0150algonquinlive.doorsopenottawa.R.id.itemname;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
@@ -111,6 +113,16 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                 Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
+            }
+        });
+
+        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Snackbar.make(view, "You clicked Image" + holder.itemname, Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                Intent intent=new Intent(context,DetailsActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

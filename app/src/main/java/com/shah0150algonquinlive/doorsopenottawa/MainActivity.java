@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
     }
-
+//Get data button
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.menu, menu);
