@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity {
+    private AboutDialogFragment mAboutDialog;
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
     private ProgressBar pb;
     private List<MyTask> tasks;
@@ -36,7 +37,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mAboutDialog = new AboutDialogFragment();
         pb = (ProgressBar) findViewById(R.id.progressBar);
         pb.setVisibility(View.INVISIBLE);
 
@@ -46,23 +47,23 @@ public class MainActivity extends Activity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_get_data) {
-            if (isOnline()) {
-                requestData(REST_URI + "buildings");
-            } else {
-                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
-            }
-        }
-        return false;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.action_get_data) {
+//            if (isOnline()) {
+//                requestData(REST_URI + "buildings");
+//            } else {
+//                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
+//            }
+//        }
+//        return false;
+//    }
 
     public void requestData(String uri) {
         MyTask task = new MyTask();
@@ -156,6 +157,25 @@ public class MainActivity extends Activity {
                 }
             }
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.action_about:
+
+                mAboutDialog.show(getFragmentManager(), "About_Dialog");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
