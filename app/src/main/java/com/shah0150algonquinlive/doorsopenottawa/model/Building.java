@@ -11,6 +11,7 @@ import java.util.List;
 public class Building {
     private int buildingId;
     private String name;
+    private String description;
     private String address;
     private String image;
     private List<String>  openHours;
@@ -32,7 +33,9 @@ public class Building {
         this.buildingId = buildingId;
     }
 
+public String getDescription(){return  description;}
 
+    public void setDescription(String description){this.description = description;}
     public String getName() {
         return name;
     }

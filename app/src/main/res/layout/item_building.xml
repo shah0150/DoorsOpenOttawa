@@ -44,6 +44,7 @@
             <ImageView
                 android:id="@+id/itemImage"
                 android:layout_width="match_parent"
+
                 android:layout_height="@dimen/album_cover_height"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
@@ -67,6 +68,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/itemImage"
                 android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
+                android:clickable="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_dots" />
 

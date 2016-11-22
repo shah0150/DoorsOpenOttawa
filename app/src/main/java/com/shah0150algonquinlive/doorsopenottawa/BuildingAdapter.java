@@ -43,7 +43,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
     protected LruCache<Integer, Bitmap> imageCache;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView buildingName,buildingDate;
+        public TextView buildingName,buildingDate, buildingDescription;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
@@ -51,6 +51,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
             buildingName = (TextView) view.findViewById(itemname);
             buildingDate = (TextView) view.findViewById(R.id.ItemDate);
+            buildingDescription = (TextView) view.findViewById(R.id.buildingDes);
             thumbnail = (ImageView) view.findViewById(R.id.itemImage);
             overflow = (ImageView) view.findViewById(R.id.overflow);
 
@@ -88,6 +89,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         holder.buildingDate.setText(date);
         holder.buildingName.setText(building.getName());
 
+
         Bitmap bitmap = imageCache.get(building.getBuildingId());
         if (bitmap != null) {
 
@@ -105,13 +107,13 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             
             @Override
             public void onClick(View view) {
-//                PopupMenu popup = new PopupMenu(context,view);
-//                MenuInflater inflater = popup.getMenuInflater();
-//                inflater.inflate(R.menu.menu_building, popup.getMenu());
-//                popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-//                popup.show();
-                Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                PopupMenu popup = new PopupMenu(context,view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.menu_building, popup.getMenu());
+                popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+                popup.show();
+//                Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
 
             }
         });
@@ -119,33 +121,44 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Snackbar.make(view, "You clicked Image" + holder.itemname, Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                Intent intent=new Intent(context,DetailsActivity.class);
-                startActivity(intent);
-                finish();
+                ///Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG).setAction("Action", null).show();
+// view.getContext().startActivity(new Intent(view.getContext(),DetailsActivity.class));
+//                Intent intent=new Intent(context,DetailsActivity.class);
+//                context.startActivity(intent);
+                Snackbar snackbar = Snackbar
+                        .make(view, "Message is deleted", Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Snackbar snackbar1 = Snackbar.make(view, "Message is restored!", Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+                            }
+                        });
+
+                snackbar.show();
             }
         });
 
     }
-//    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
-//
-//        public MyMenuItemClickListener() {
-//        }
-//
-//        @Override
-//        public boolean onMenuItemClick(MenuItem menuItem) {
-//            switch (menuItem.getItemId()) {
-//                case R.id.action_add_favourite:
-//                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                case R.id.action_play_next:
-//                    Toast.makeText(context, "Play next", Toast.LENGTH_SHORT).show();
-//                    return true;
-//                default:
-//            }
-//            return false;
-//        }
-//    }
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+
+        public MyMenuItemClickListener() {
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.action_add_favourite:
+                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.action_play_next:
+                    Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show();
+                    return true;
+                default:
+            }
+            return false;
+        }
+    }
 //    private void showPopupMenu(View view) {
 //        PopupMenu popup = new PopupMenu(context,view);
 //        MenuInflater inflater = popup.getMenuInflater();
