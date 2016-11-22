@@ -18,6 +18,7 @@ public class Building {
         return openHours;
     }
     private Bitmap bitmap;
+    private int thumbnail;
     public void setOpenHours(List<String> openHours) {
         this.openHours = openHours;
     }
@@ -62,5 +63,13 @@ public class Building {
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+
+    public int getThumbnail() {
+        return thumbnail;
+    }
+    public void setThumbnail(int thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

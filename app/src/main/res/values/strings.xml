@@ -2,4 +2,6 @@
     <string name="app_name">Doors Open Ottawa</string>
     <string name="get_data">Get data</string>
     <string name="planet_name_placeholder">Planet name</string>
+    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_play_next">Play Next</string>
 </resources>
