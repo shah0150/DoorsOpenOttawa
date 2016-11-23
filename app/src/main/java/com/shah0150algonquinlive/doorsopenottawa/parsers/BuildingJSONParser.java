@@ -38,6 +38,7 @@ public class BuildingJSONParser {
                 building.setAddress(obj.getString("address"));
                 building.setBuildingId(obj.getInt("buildingId"));
                 building.setImage(obj.getString("image"));
+                building.setAddress(obj.getString("description"));
                 listbuilding.add(building);
             }
             return listbuilding;

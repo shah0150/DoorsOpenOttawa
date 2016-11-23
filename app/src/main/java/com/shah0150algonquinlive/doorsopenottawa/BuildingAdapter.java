@@ -8,7 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
+import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,22 +18,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.shah0150algonquinlive.doorsopenottawa.model.Building;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-
-import static com.shah0150algonquinlive.doorsopenottawa.R.id.image;
-import static com.shah0150algonquinlive.doorsopenottawa.R.id.itemname;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
 
@@ -43,15 +37,14 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
     protected LruCache<Integer, Bitmap> imageCache;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView buildingName,buildingDate, buildingDescription;
+        public TextView buildingName,buildingDate;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
             super(view);
 
-            buildingName = (TextView) view.findViewById(itemname);
+            buildingName = (TextView) view.findViewById(R.id.itemname);
             buildingDate = (TextView) view.findViewById(R.id.ItemDate);
-            buildingDescription = (TextView) view.findViewById(R.id.buildingDes);
             thumbnail = (ImageView) view.findViewById(R.id.itemImage);
             overflow = (ImageView) view.findViewById(R.id.overflow);
 
@@ -61,6 +54,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
     public BuildingAdapter(Context context, List<Building> building) {
         this.context = context;
         this.buildingList = building;
+
         final int maxMemory = (int)(Runtime.getRuntime().maxMemory()/1024);
         final int cacheSize = maxMemory/8;
         imageCache = new LruCache<>(cacheSize);
@@ -88,7 +82,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         }
         holder.buildingDate.setText(date);
         holder.buildingName.setText(building.getName());
-
+        //holder.buildingDescription.setText(building.getDescription());
 
         Bitmap bitmap = imageCache.get(building.getBuildingId());
         if (bitmap != null) {
@@ -118,28 +112,36 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             }
         });
 
-        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ///Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG).setAction("Action", null).show();
 // view.getContext().startActivity(new Intent(view.getContext(),DetailsActivity.class));
-//                Intent intent=new Intent(context,DetailsActivity.class);
-//                context.startActivity(intent);
-                Snackbar snackbar = Snackbar
-                        .make(view, "Message is deleted", Snackbar.LENGTH_LONG)
-                        .setAction("UNDO", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Snackbar snackbar1 = Snackbar.make(view, "Message is restored!", Snackbar.LENGTH_SHORT);
-                                snackbar1.show();
-                            }
-                        });
-
-                snackbar.show();
+                Intent intent=new Intent(view.getContext(), DetailsActivity.class);
+                Bundle b=new Bundle();
+                b.putString("title",building.getName());
+                b.putString("image",building.getImage());
+                b.putString("address",building.getAddress());
+                b.putString("description",building.getDescription());
+                intent.putExtras(b);
+                view.getContext().startActivity(intent);
+//
             }
         });
 
     }
+
+//    Snackbar snackbar = Snackbar
+    //                        .make(view, "Message is deleted", Snackbar.LENGTH_LONG)
+//                        .setAction("UNDO", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Snackbar snackbar1 = Snackbar.make(view, "Message is restored!", Snackbar.LENGTH_SHORT);
+//                                snackbar1.show();
+//                            }
+//                        });
+//
+//                snackbar.show();
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
         public MyMenuItemClickListener() {
