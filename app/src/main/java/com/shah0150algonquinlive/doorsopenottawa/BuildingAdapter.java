@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.shah0150algonquinlive.doorsopenottawa.model.Building;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
@@ -123,6 +124,8 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                 b.putString("image",building.getImage());
                 b.putString("address",building.getAddress());
                 b.putString("description",building.getDescription());
+                ArrayList<String> opnhours= (ArrayList<String>) building.getOpenHours();
+                b.putStringArrayList("date",opnhours);
                 intent.putExtras(b);
                 view.getContext().startActivity(intent);
 //
