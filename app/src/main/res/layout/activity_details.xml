@@ -22,14 +22,15 @@
         />
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="150dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="125dp"
         android:layout_alignParentRight="true"
         android:id="@+id/image"
         />
     <TextView
         android:text="Title"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"
@@ -44,11 +45,45 @@
         android:id="@+id/buildingName"
         android:layout_below="@+id/lblTitle"
         />
+
     <TextView
-        android:text="Description"
+        android:text="Address"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buildingName"
+        android:id="@+id/lblBuildingAddress"
+        />
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblBuildingAddress"
+        android:id="@+id/buildingAddress"
+        />
+    <TextView
+        android:text="Open Hours"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buildingAddress"
+        android:id="@+id/lblOpenHours"
+        />
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblOpenHours"
+
+        android:id="@+id/buildingDate"
+        />
+
+    <TextView
+        android:text="Description"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buildingDate"
         android:id="@+id/lblDescription"
         />
 
@@ -60,26 +95,9 @@
         android:id="@+id/buildingDes"
          />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buildingDes"
-        android:layout_alignStart="@+id/buildingName"
-        android:layout_marginStart="9dp"
 
-        android:id="@+id/buildingDate"
-        android:layout_alignParentEnd="true" />
-    <TextView
-        android:text="TextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buildingDate"
-        android:layout_alignStart="@+id/buildingName"
-        android:layout_marginStart="9dp"
 
-        android:id="@+id/buildingAddress"
-        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
 </ScrollView>
 

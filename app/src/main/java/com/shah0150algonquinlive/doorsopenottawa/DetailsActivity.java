@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,7 +77,8 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             LatLng ll = new LatLng( address.getLatitude(), address.getLongitude() );
             mMap.addMarker( new MarkerOptions().position(ll).title(locationName) );
             mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(ll,12.0f) );
-            Toast.makeText(this, "Pinned: " + locationName, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Pinned: " + locationName, Toast.LENGTH_SHORT).show();
+      // Snackbar.make(R.id.pin_found + locationName, Snackbar.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, "Not found: " + locationName, Toast.LENGTH_SHORT).show();
         }
