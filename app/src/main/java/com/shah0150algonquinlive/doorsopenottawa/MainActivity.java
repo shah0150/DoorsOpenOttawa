@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
         pb.setVisibility(View.INVISIBLE);
 
         tasks = new ArrayList<>();
-        requestData(REST_URI + "buildings");
+        requestData(REST_URI + "buildings/unsecure");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
     }

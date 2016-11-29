@@ -99,7 +99,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         }
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
-            
+
             @Override
             public void onClick(View view) {
                 PopupMenu popup = new PopupMenu(context,view);
@@ -145,19 +145,20 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 //                        });
 //
 //                snackbar.show();
-    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+    public class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
 
-        public MyMenuItemClickListener() {
-        }
+
 
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
                     Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    Log.d("Action_Fav", "Added to favourite");
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show();
+                    Log.d("Next", "Go to Next");
                     return true;
                 default:
             }
