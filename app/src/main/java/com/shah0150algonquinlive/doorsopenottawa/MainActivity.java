@@ -103,8 +103,9 @@ public class MainActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
 //            String content = HttpManager.getData(params[0]);
-//            return content;
-            return HttpManager.getData(params[0]);
+//
+            String content = HttpManager.getData( params[0], "shah0150", "password" );
+            return content;
         }
 
         @Override
