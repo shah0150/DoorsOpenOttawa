@@ -19,6 +19,7 @@
         android:layout_height="200dp"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/mapFragment"
+
         />
 
     <ImageView

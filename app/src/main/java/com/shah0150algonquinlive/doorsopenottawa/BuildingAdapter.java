@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -107,8 +108,28 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                 inflater.inflate(R.menu.menu_building, popup.getMenu());
                 popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
                 popup.show();
-//                Snackbar.make(view, "Click on the card for more Information."  , Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
+                Snackbar snackbar =  Snackbar.make(view, "Building added to favourites!"  , Snackbar.LENGTH_LONG)
+                        .setAction("Favourites", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Snackbar snackbar1 = Snackbar.make(view, "Message is restored!", Snackbar.LENGTH_SHORT);
+                                snackbar1.show();
+                            }
+                        });
+
+                snackbar.show();
+//                Snackbar snackbar = Snackbar
+//                        .make(coordinatorLayout, "Message is deleted", Snackbar.LENGTH_LONG)
+//                        .setAction("UNDO", new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Snackbar snackbar1 = Snackbar.make(coordinatorLayout, "Message is restored!", Snackbar.LENGTH_SHORT);
+//                                snackbar1.show();
+//                            }
+//                        });
+//
+//                snackbar.show();
+
 
             }
         });
@@ -153,7 +174,8 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(context, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Added to favourite", Toast.LENGTH_SHORT).show();
+//                    Snackbar.make(, "Add to favourite", Toast.LENGTH_SHORT).show();
                     Log.d("Action_Fav", "Added to favourite");
                     return true;
                 case R.id.action_play_next:
@@ -165,13 +187,13 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             return false;
         }
     }
-//    private void showPopupMenu(View view) {
-//        PopupMenu popup = new PopupMenu(context,view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.menu_building, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-//        popup.show();
-//    }
+    private void showPopupMenu(View view) {
+        PopupMenu popup = new PopupMenu(context,view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_building, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+        popup.show();
+    }
 
 
     @Override

@@ -3,12 +3,14 @@ package com.shah0150algonquinlive.doorsopenottawa;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +27,7 @@ import com.shah0150algonquinlive.doorsopenottawa.parsers.BuildingJSONParser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private AboutDialogFragment mAboutDialog;
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
     private ProgressBar pb;
@@ -42,7 +44,7 @@ public class MainActivity extends Activity {
         pb.setVisibility(View.INVISIBLE);
 
         tasks = new ArrayList<>();
-        requestData(REST_URI + "buildings/unsecure");
+        requestData(REST_URI + "buildings");
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
     }
@@ -175,6 +177,9 @@ public class MainActivity extends Activity {
 
                 mAboutDialog.show(getFragmentManager(), "About_Dialog");
                 return true;
+            case R.id.action_add_favourite:
+                Intent intent = new Intent(this, favourites.class);
+                this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
