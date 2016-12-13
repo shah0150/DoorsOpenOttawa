@@ -89,7 +89,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
             {
                 String requesturl = String.format(url, URLEncoder.encode(String.valueOf(locationName), "UTF-8"));
                 Log.e("TAG",requesturl);
-                new LocalGeoCoder().execute(requesturl);
+                new LocalGeoCoder().execute(url);
             }
             else {
                 LatLng ll=new LatLng(address.get(0).getLatitude(), address.get(0).getLongitude());
@@ -112,7 +112,8 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
 
         @Override
         protected LatLng doInBackground(String... params) {
-            String content = HttpManager.getData(params[0], "shah0150", "password");
+//            String content = com.shah0150algonquinlive.doorsopenottawa.HttpManager(params[0]);
+            String content = HttpManager.getDataX(params[0], "shah0150" , "password");
             JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(content);

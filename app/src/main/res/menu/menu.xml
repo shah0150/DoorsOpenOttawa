@@ -1,12 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
     android:id="@+id/action_about"
     android:icon="@android:drawable/ic_dialog_info"
     android:title="@string/action_about"
+        app:showAsAction="never"
     />
-
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="200"
+        android:title="Search"
+        android:icon="@drawable/fav"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/action_user"
+        android:orderInCategory="300"
+        android:title="Post"
+        android:icon="@drawable/ic_action_name"
+        app:showAsAction="ifRoom"/>
     <item android:title="Favourites"
         android:id="@+id/action_add_favourite"/>
+    <group android:id="@+id/sort_options" android:checkableBehavior="single">
+
+        <item android:id="@+id/action_sort_name_asc"
+            android:title="Sort by Name (a-z)"
+            android:checked="false" />
+        <item android:id="@+id/action_sort_name_dsc"
+            android:title="Sort by Name (z-a)"
+  />
+    </group>
 </menu>

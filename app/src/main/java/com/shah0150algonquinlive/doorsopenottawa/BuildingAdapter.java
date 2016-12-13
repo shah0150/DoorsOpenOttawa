@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.shah0150algonquinlive.doorsopenottawa.model.Building;
+import com.shah0150algonquinlive.doorsopenottawa.MainActivity;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
     private List<Building> buildingList;
 
     protected LruCache<Integer, Bitmap> imageCache;
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView buildingName,buildingDate;
@@ -71,6 +75,22 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         //Display planet name in the TextView widget
         return new MyViewHolder(view);
     }
+/* Within the RecyclerView.Adapter class */
+
+    // Clean all elements of the recycler
+//    public void clear() {
+//        items.clear();
+//        notifyDataSetChanged();
+//    }
+//
+//    // Add a list of items
+//    public void addAll(List<Building> buildingList) {
+//        items.addAll(buildingList);
+//        notifyDataSetChanged();
+//    }
+
+
+
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
@@ -99,6 +119,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
             loader.execute(container);
         }
 
+
         holder.overflow.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -112,8 +133,12 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                         .setAction("Favourites", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Snackbar snackbar1 = Snackbar.make(view, "Message is restored!", Snackbar.LENGTH_SHORT);
-                                snackbar1.show();
+                                Intent intent = new Intent(context, favourites.class);
+                                intent.putExtra("title",building.getName());
+                                intent.putExtra("image",building.getImage());
+                                intent.putExtra("address",building.getAddress());
+
+                                context.startActivity(intent);
                             }
                         });
 
@@ -152,6 +177,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 //
             }
         });
+
 
     }
 
@@ -269,10 +295,12 @@ private class ImageLoader extends AsyncTask<BuildingAndView, Void, BuildingAndVi
 
     @Override
     protected void onPostExecute(BuildingAndView result) {
-        ImageView image = (ImageView) result.view.findViewById(R.id.itemImage);
-        image.setImageBitmap(result.bitmap);
-        result.building.setBitmap(result.bitmap);
-        imageCache.put(result.building.getBuildingId(), result.bitmap);
+        if(result.view!=null) {
+            ImageView image = (ImageView) result.view.findViewById(R.id.itemImage);
+            image.setImageBitmap(result.bitmap);
+            result.building.setBitmap(result.bitmap);
+            imageCache.put(result.building.getBuildingId(), result.bitmap);
+        }
     }
 }
 
