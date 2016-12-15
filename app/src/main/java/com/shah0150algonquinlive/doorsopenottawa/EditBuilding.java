@@ -20,6 +20,7 @@ import static com.shah0150algonquinlive.doorsopenottawa.MainActivity.REST_URI;
  *  CRUD operation was every exciting learned many things with this.
  *  Want to learn more about uploading a file/image to the server but the time limit won this time :(
  *  But I will be doing upload/file image over the break.
+ *  Overall I really liked it and loved trying different things
  *  @author Adesh Shah (shah0150@algonquinlive.com)
  */
 
