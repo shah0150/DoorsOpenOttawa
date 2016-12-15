@@ -13,6 +13,17 @@ import android.widget.Toast;
 
 import static com.shah0150algonquinlive.doorsopenottawa.MainActivity.REST_URI;
 
+
+
+/**
+ *  To Create a doors open ottawa application for Doors Open calling an API afrom Gerry's Bluemix Server.
+ *  CRUD operation was every exciting learned many things with this.
+ *  Want to learn more about uploading a file/image to the server but the time limit won this time :(
+ *  But I will be doing upload/file image over the break.
+ *  @author Adesh Shah (shah0150@algonquinlive.com)
+ */
+
+
 public class EditBuilding extends AppCompatActivity implements View.OnClickListener {
 
     private EditText pName,pAddress,pDescription;
