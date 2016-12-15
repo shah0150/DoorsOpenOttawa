@@ -37,6 +37,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+
+
+/**
+ *  To Create a doors open ottawa application for Doors Open calling an API afrom Gerry's Bluemix Server.
+ *  CRUD operation was every exciting learned many things with this.
+ *  Want to learn more about uploading a file/image to the server but the time limit won this time :(
+ *  But I will be doing upload/file image over the break.
+ *  Overall I really liked it and loved trying different things
+ *  @author Adesh Shah (shah0150@algonquinlive.com)
+ */
+
+
 public class MainActivity extends AppCompatActivity  {
     private AboutDialogFragment mAboutDialog;
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
