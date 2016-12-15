@@ -29,3 +29,6 @@ FR #8 - Favourites
       
 FR #9 - Get Building 
       Status: Complete 
+
+FR #10 - Sorting
+      Status: Complete 
