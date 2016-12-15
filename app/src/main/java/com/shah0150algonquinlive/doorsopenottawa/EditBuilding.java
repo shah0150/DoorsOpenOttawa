@@ -1,5 +1,8 @@
 package com.shah0150algonquinlive.doorsopenottawa;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +53,16 @@ public class EditBuilding extends AppCompatActivity implements View.OnClickListe
         pkg.setParam("description",pDescription.getText().toString());
         EditTask edtTask=new EditTask();
         edtTask.execute(pkg);
+
+        NotificationManager notif=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify=new Notification.Builder
+                (getApplicationContext()).setContentTitle("Edit").setContentText("Building Edited Succesful").
+                setContentTitle("ok").setSmallIcon(R.drawable.ic_stat_name).build();
+
+        notify.flags |= Notification.FLAG_AUTO_CANCEL;
+        notif.notify(0, notify);
+
+
     }
     public class EditTask extends AsyncTask<RequestPackage, String,String>
     {

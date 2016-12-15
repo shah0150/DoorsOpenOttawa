@@ -1,6 +1,9 @@
 package com.shah0150algonquinlive.doorsopenottawa;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -46,6 +49,16 @@ public class NewBuildingActivity extends Activity implements View.OnClickListene
         rpkg.setParam("image","Picture.png");
         PostTask pt=new PostTask();
         pt.execute(rpkg);
+
+
+        NotificationManager notif=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify=new Notification.Builder
+                (getApplicationContext()).setContentTitle(pName).setContentText(pAddress).
+                setContentTitle(pName).setSmallIcon(R.drawable.ic_stat_name).build();
+
+        notify.flags |= Notification.FLAG_AUTO_CANCEL;
+        notif.notify(0, notify);
+
     }
 
     private void getData() {
