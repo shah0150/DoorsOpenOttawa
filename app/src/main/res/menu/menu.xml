@@ -10,11 +10,11 @@
     />
     <item
         android:id="@+id/action_search"
-        android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/fav"
-        app:showAsAction="ifRoom"
-        />
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        android:orderInCategory="300"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:title="Search"/>
     <item
         android:id="@+id/action_user"
         android:orderInCategory="300"

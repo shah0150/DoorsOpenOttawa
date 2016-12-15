@@ -3,7 +3,7 @@
     <string name="get_data">Get data</string>
     <string name="planet_name_placeholder">Planet name</string>
     <string name="action_add_favourite">Add to Favourites</string>
-    <string name="action_play_next">Next</string>
+    <string name="action_play_next">Delete</string>
     <string name="action_about">About</string>
     <string name="author">Adesh Shah (shah0150) Microsoft Evangelist</string>
     <string name="designation">Microsoft Evangelist</string>
@@ -18,4 +18,7 @@
     <string name="building_address">Building Address</string>
     <string name="bulding_description">Bulding Description</string>
     <string name="button">Button</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="search_hint">Search</string>
 </resources>

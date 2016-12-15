@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +47,7 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
     private Bundle b;
     private String url="https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=AIzaSyDljwyAhRkGAPhYd-IB_rFGsurxHNojjQU";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +70,12 @@ public class DetailsActivity extends FragmentActivity implements OnMapReadyCallb
         mTitle.setText(b.getString("title"));
         mAddress.setText(b.getString("address"));
         mDescription.setText(b.getString("description"));
-        ArrayList<String> open_hours = b.getStringArrayList("date");
+//        ArrayList<String> open_hours = b.getStringArrayList("date");
         String date = "";
-        for (int i = 0; i < open_hours.size(); i++) {
-            date += open_hours.get(i) + "\n";
-        }
-        mDate.setText(date);
+//        for (int i = 0; i < open_hours.size(); i++) {
+//            date += open_hours.get(i) + "\n";
+//        }
+//        mDate.setText(date);
         ImageLoader loader = new ImageLoader();
         loader.execute(b.getString("image"));
 

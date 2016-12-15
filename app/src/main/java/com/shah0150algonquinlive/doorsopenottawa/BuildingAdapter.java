@@ -6,11 +6,13 @@ package com.shah0150algonquinlive.doorsopenottawa;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +22,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
@@ -33,14 +38,32 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> {
+import static com.shah0150algonquinlive.doorsopenottawa.MainActivity.REST_URI;
+
+public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyViewHolder> implements View.OnClickListener, Filterable {
 
     private Context context;
     private List<Building> buildingList;
 
     protected LruCache<Integer, Bitmap> imageCache;
 
+    private Building mSelectedBuilding;
 
+    @Override
+    public void onClick(View view) {
+        Intent intent=new Intent(context, DetailsActivity.class);
+
+        Bundle b=new Bundle();
+        b.putString("id",""+mSelectedBuilding.getBuildingId());
+        b.putString("name", mSelectedBuilding.getName());
+        b.putString("description", mSelectedBuilding.getDescription());
+        b.putString("address",mSelectedBuilding.getAddress());
+        intent.putExtras(b);
+        context.startActivity(intent);
+
+
+
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView buildingName,buildingDate;
@@ -105,6 +128,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
         holder.buildingDate.setText(date);
         holder.buildingName.setText(building.getName());
         //holder.buildingDescription.setText(building.getDescription());
+        holder.itemView.setOnClickListener(this);
 
         Bitmap bitmap = imageCache.get(building.getBuildingId());
         if (bitmap != null) {
@@ -124,6 +148,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 
             @Override
             public void onClick(View view) {
+                mSelectedBuilding=building;
                 PopupMenu popup = new PopupMenu(context,view);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.menu_building, popup.getMenu());
@@ -141,8 +166,8 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
                                 context.startActivity(intent);
                             }
                         });
-
-                snackbar.show();
+//
+//                snackbar.show();
 //                Snackbar snackbar = Snackbar
 //                        .make(coordinatorLayout, "Message is deleted", Snackbar.LENGTH_LONG)
 //                        .setAction("UNDO", new View.OnClickListener() {
@@ -204,13 +229,93 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.MyView
 //                    Snackbar.make(, "Add to favourite", Toast.LENGTH_SHORT).show();
                     Log.d("Action_Fav", "Added to favourite");
                     return true;
-                case R.id.action_play_next:
-                    Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show();
-                    Log.d("Next", "Go to Next");
-                    return true;
+
+                case R.id.action_delete:
+                    delete();
+
+                    break;
+                case R.id.action_edit:
+                    edit();
+                    break;
                 default:
             }
             return false;
+        }
+    }
+
+    private void edit() {
+        Intent intent=new Intent(context, EditBuilding.class);
+
+        Bundle b=new Bundle();
+        b.putInt("id",mSelectedBuilding.getBuildingId());
+        b.putString("name", mSelectedBuilding.getName());
+        b.putString("description", mSelectedBuilding.getDescription());
+        b.putString("address",mSelectedBuilding.getAddress());
+        intent.putExtras(b);
+        context.startActivity(intent);
+
+    }
+
+    private void delete() {
+
+        openDialog();
+    }
+    public void openDialog()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Delete Data");
+        alertDialogBuilder.setMessage("Are you sure to delete the record?");
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface arg0, int arg1) {
+            RequestPackage pkg = new RequestPackage();
+            pkg.setMethod(HttpMethod.DELETE);
+            pkg.setUri(REST_URI + "buildings/"+ mSelectedBuilding.getBuildingId());
+            DeleteTask delTask=new DeleteTask();
+            delTask.execute(pkg);
+
+
+
+        }
+       });
+       alertDialogBuilder.setNegativeButton("Cancel",
+       new DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+        }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private class DeleteTask extends AsyncTask<RequestPackage, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(RequestPackage... params) {
+
+
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result == null) {
+                Toast.makeText(context, "Failed To delete a building", Toast.LENGTH_LONG).show();
+                return;
+            }else{
+                Toast.makeText(context, "Building Succsessfully Deleted", Toast.LENGTH_LONG).show();
+            }
         }
     }
     private void showPopupMenu(View view) {
@@ -303,5 +408,44 @@ private class ImageLoader extends AsyncTask<BuildingAndView, Void, BuildingAndVi
         }
     }
 }
+
+
+    @Override
+    public Filter getFilter() {
+
+        Filter filter = new Filter() {
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                buildingList = (List<Building>) results.values;
+                notifyDataSetChanged();
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults results = new Filter.FilterResults();
+                ArrayList<Building> FilteredArrayNames = new ArrayList<>();
+
+                constraint = constraint.toString().toLowerCase();
+                for (int i = 0; i < buildingList.size(); i++) {
+                    String dataNames = buildingList.get(i).getName();
+                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
+                        FilteredArrayNames.add(buildingList.get(i));
+                    }
+                }
+
+                results.count = FilteredArrayNames.size();
+                results.values = FilteredArrayNames;
+                Log.e("VALUES", results.values.toString());
+
+                return results;
+            }
+        };
+
+        return filter;
+    }
 
 }

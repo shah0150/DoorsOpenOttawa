@@ -23,14 +23,20 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="android.app.searchable"
+            android:resource="@xml/searchable" />
 
         <activity android:name=".DetailsActivity" />
+        <activity android:name=".NewBuildingActivity" />
         <activity
             android:name=".navigation_drawer"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme" />
         <activity android:name=".favourites" />
-        <activity android:name=".NewBuildingActivity"></activity>
+        <activity android:name=".EditBuilding"></activity>
+
     </application>
+
 
 </manifest>

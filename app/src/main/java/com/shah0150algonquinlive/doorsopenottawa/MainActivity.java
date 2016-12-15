@@ -2,6 +2,7 @@ package com.shah0150algonquinlive.doorsopenottawa;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity  {
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
     private ProgressBar pb;
     private List<MyTask> tasks;
-    private List<GetTask> gtasks;
+
 
     private List<Building> buildingList;
     private BuildingAdapter ba;
@@ -68,10 +70,11 @@ public class MainActivity extends AppCompatActivity  {
                     public void onRefresh() {
                         // This method performs the actual data-refresh operation.
                         // The method calls setRefreshing(false) when it's finished.
-                        mySwipeRefreshLayout.setProgressViewOffset(true,1,5);
-                        mySwipeRefreshLayout.setColorSchemeColors(3443);
-                        requestData(REST_URI);
+//                        mySwipeRefreshLayout.setProgressViewOffset(true,1,5);
+//                        mySwipeRefreshLayout.setColorSchemeColors(3443);
+//                        requestData(REST_URI);
                         mySwipeRefreshLayout.setRefreshing(false);
+                        updateDisplay();
                     }
                 }
 
@@ -96,9 +99,6 @@ public class MainActivity extends AppCompatActivity  {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-
-
     }
 
     public boolean isOnline() {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity  {
         @Override
         protected String doInBackground(RequestPackage... params) {
 
-            String content = com.shah0150algonquinlive.doorsopenottawa.HttpManager.getData(params[0]);
+            String content =HttpManager.getData(params[0]);
             return content;
         }
 
@@ -180,108 +180,58 @@ public class MainActivity extends AppCompatActivity  {
             }
         }
     }
-    private void createBuilding(String uri) {
-        Building building = new Building();
-        building.setName( "shah0150" );
-        building.setAddress("99 ViewMount");
-        building.setDescription( " Test Image" );
-        building.setImage( "images/test.png" );
-
-
-        RequestPackage pkg = new RequestPackage();
-        pkg.setMethod( HttpMethod.POST );
-        pkg.setUri( uri );
-        pkg.setParam("name", building.getName() );
-        pkg.setParam("address",building.getAddress());
-        pkg.setParam("description", building.getDescription() );
-        pkg.setParam("image",building.getImage());
-
-
-        DoTask postTask = new DoTask();
-        postTask.execute( pkg );
-    }
-    private class DoTask extends AsyncTask<RequestPackage, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            pb.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage ... params) {
-
-            String content = com.shah0150algonquinlive.doorsopenottawa.HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            pb.setVisibility(View.INVISIBLE);
-
-            if (result == null) {
-                Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                return;
-            }
-        }
-    }
-    private class GetTask extends AsyncTask<RequestPackage, String, String> {
-
-        @Override
-        protected void onPreExecute() {
-            if (gtasks.size() == 0) {
-                pb.setVisibility(View.VISIBLE);
-            }
-            gtasks.add(this);
-        }
-
-        @Override
-        protected String doInBackground(RequestPackage ... params) {
-
-            String content = com.shah0150algonquinlive.doorsopenottawa.HttpManager.getData(params[0]);
-            return content;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            gtasks.remove(this);
-            if (gtasks.size() == 0) {
-                pb.setVisibility(View.INVISIBLE);
-            }
-
-            if (result == null) {
-                Toast.makeText(MainActivity.this, "Web service not available", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            buildingList = BuildingJSONParser.parseFeed(result);
-            updateDisplay();
 
 
 
-        }
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    ((adapter)).getFilter().filter(s);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    ((adapter)).getFilter().filter(s);
+                    return false;
+                }
+
+
+            });
         return true;
-    }
+        }
+
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected (MenuItem item)
     {
-
-
-
-
         if (item.isCheckable()) {
             // leave if the list is null
             if (buildingList == null) {
                 return true;
             }
+        }
             Log.i("Buildings", "Sorting");
 
             switch (item.getItemId()) {
@@ -289,6 +239,12 @@ public class MainActivity extends AppCompatActivity  {
 
                 mAboutDialog.show(getFragmentManager(), "About_Dialog");
                 return true;
+
+                case R.id.action_user:
+                    Intent newBuilding=new Intent(this,NewBuildingActivity.class);
+                    startActivity(newBuilding);
+                    return true;
+
             case R.id.action_add_favourite:
                 Intent intent = new Intent(this, favourites.class);
                 this.startActivity(intent);
@@ -327,22 +283,17 @@ public class MainActivity extends AppCompatActivity  {
             // re-fresh the list to show the sort order
             adapter.notifyDataSetChanged();
 
-            return true;
+
+        return super.onOptionsItemSelected(item);
 
         }
 
-        if (item.getItemId() == R.id.action_user) {
-            if (isOnline()) {
-                Intent myIntent = new Intent(this,NewBuildingActivity.class);
-                startActivity(myIntent);
 
-            } else {
-                Toast.makeText(this, "Network isn't available", Toast.LENGTH_LONG).show();
-            }
-        }
 
-      return super.onOptionsItemSelected(item);
-    }
+
+
+
+
     protected class BuildingAndView {
         public Building building; }
     /**
