@@ -1,5 +1,6 @@
 package com.shah0150algonquinlive.doorsopenottawa;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class RequestPackage {
     public void setParams(Map<String, String> params) {
         this.params = params;
     }
-
+    private Map<String, File> imageParams = new HashMap<>();
     public void setParam(String key, String value) {
         params.put(key, value);
     }
@@ -55,6 +56,16 @@ public class RequestPackage {
             sb.append(key + "=" + value);
         }
         return sb.toString();
+    }
+
+    public void setImageParams(String key,File bm)
+    {
+        imageParams.put(key,bm);
+    }
+
+    public File getImage()
+    {
+        return imageParams.get("image");
     }
 
 
