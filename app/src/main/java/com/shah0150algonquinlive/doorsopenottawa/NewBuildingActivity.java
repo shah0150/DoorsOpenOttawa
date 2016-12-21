@@ -18,11 +18,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.shah0150algonquinlive.doorsopenottawa.model.Building;
+import com.shah0150algonquinlive.doorsopenottawa.parsers.BuildingJSONParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import static com.shah0150algonquinlive.doorsopenottawa.MainActivity.IMAGE_REST_URI;
 import static com.shah0150algonquinlive.doorsopenottawa.MainActivity.REST_URI;
 
 /**
@@ -147,16 +149,35 @@ public class NewBuildingActivity extends Activity implements View.OnClickListene
         protected void onPostExecute(String s) {
         super.onPostExecute(s);
         Toast.makeText(getApplicationContext(),"Record added successfully",Toast.LENGTH_SHORT).show();
+            Building building = BuildingJSONParser.parseBuilding(s);
             RequestPackage pkg = new RequestPackage();
             pkg.setMethod(HttpMethod.PUT);
-            pkg.setUri(REST_URI + "buildings/" + building.getBuildingId() + "/image");
+            pkg.setUri(IMAGE_REST_URI + "buildings/" + building.getBuildingId() + "/image");
             pkg.setParam("id", ""+building.getBuildingId());
             pkg.setImageParams("image", realImage);
-            PostTask ct = new PostTask();
+            PostTaskUploadImage ct = new PostTaskUploadImage();
             ct.execute(pkg);
 
         }
     }
+    public class PostTaskUploadImage extends AsyncTask<RequestPackage, String,String>
+    {
+        @Override
+        protected String doInBackground(RequestPackage... requestPackages) {
+            String content=HttpManager.uploadFile(requestPackages[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(getApplicationContext(),"Record added successfully",Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
+
 
 
 }

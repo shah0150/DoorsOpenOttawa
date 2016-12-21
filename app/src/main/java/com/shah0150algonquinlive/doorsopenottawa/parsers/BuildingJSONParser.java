@@ -49,4 +49,19 @@ public class BuildingJSONParser {
         }
 
     }
+    public static Building parseBuilding(String content) {
+        try {
+            JSONObject jsonResponse = new JSONObject(content);
+            Building building = new Building();
+            building.setName(jsonResponse.getString("name"));
+            building.setAddress(jsonResponse.getString("address"));
+            building.setBuildingId(jsonResponse.getInt("buildingId"));
+            building.setDescription(jsonResponse.getString("description"));
+            building.setImage(jsonResponse.getString("image"));
+            return building;
+            } catch (JSONException e) {
+            return null;
+            }
+
+    }
 }

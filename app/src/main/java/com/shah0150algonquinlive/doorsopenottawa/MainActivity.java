@@ -52,6 +52,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity  {
     private AboutDialogFragment mAboutDialog;
     public static final String REST_URI = "https://doors-open-ottawa-hurdleg.mybluemix.net/";
+    public static final String IMAGE_REST_URI = "http://doors-open-ottawa-hurdleg.mybluemix.net/";
     private ProgressBar pb;
     private List<MyTask> tasks;
 
